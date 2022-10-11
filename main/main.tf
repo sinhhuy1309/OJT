@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "ap-east-1"
+  region = var.region
 }
 
 module "networking" {
