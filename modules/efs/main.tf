@@ -1,22 +1,22 @@
-resource "aws_efs_file_system" "jenkins_efs" {
-  creation_token = "Jenkins-EFS"
+resource "aws_efs_file_system" "eks_efs" {
+  creation_token = "EKS-EFS"
   performance_mode = "generalPurpose"
   throughput_mode  = "bursting"
   encrypted        = "true"
   tags = {
-    "Name" = "${var.name}-JenkinsEFS"
+    "Name" = "${var.name}-eksEFS"
   }
 }
 
-resource "aws_efs_mount_target" "jenkins_efs_mount" {
-  file_system_id = aws_efs_file_system.jenkins_efs.id
+resource "aws_efs_mount_target" "eks_efs_mount" {
+  file_system_id = aws_efs_file_system.eks_efs.id
   security_groups = [var.sg.ingress_efs]
   count = length(var.vpc.public_subnet)
   subnet_id = var.vpc.public_subnet[count.index]
 }
 
 resource "aws_efs_file_system_policy" "policy" {
-  file_system_id = aws_efs_file_system.jenkins_efs.id
+  file_system_id = aws_efs_file_system.eks_efs.id
 
   policy = <<POLICY
 {
@@ -29,7 +29,7 @@ resource "aws_efs_file_system_policy" "policy" {
             "Principal": {
                 "AWS": "*"
             },
-            "Resource": "${aws_efs_file_system.jenkins_efs.arn}",
+            "Resource": "${aws_efs_file_system.eks_efs.arn}",
             "Action": [
                 "elasticfilesystem:ClientRootAccess",
                 "elasticfilesystem:ClientMount",

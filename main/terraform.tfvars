@@ -15,3 +15,7 @@ name = "huyls"
 instance_type = "t3.medium"
 key_pair = "huyls"
 image_id = "ami-09800b995a7e41703"
+
+######## Jenkins ##########
+jenkins_admin_user = "admin"
+jenkins_admin_password = ""

@@ -1,5 +1,5 @@
 ########### VPC Security Group ################
-resource "aws_security_group" "jenkins_sg" {
+resource "aws_security_group" "bastian_sg" {
   vpc_id = var.vpc.vpc_id
   name = "${var.name}-jenkins-sg"
   ingress {

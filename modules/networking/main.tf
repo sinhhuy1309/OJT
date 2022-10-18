@@ -21,6 +21,8 @@ resource "aws_subnet" "public_subnet" {
   map_public_ip_on_launch = true
   tags = {
     "Name" = "${var.name}-${each.value}"
+    "kubernetes.io/role/elb" = 1    
+    "kubernetes.io/cluster/huyls-eks-cluster" = "shared" 
   }
 }
 
@@ -31,11 +33,16 @@ resource "aws_subnet" "private_subnet" {
   cidr_block = each.value
   tags = {
     "Name" = "${var.name}-${each.value}"
+    "kubernetes.io/role/internal-elb" = 1    
+    "kubernetes.io/cluster/huyls-eks-cluster" = "shared"
   }
 }
 
 resource "aws_eip" "eip_nat" {
   vpc = true
+  tags = {
+    "Name" = "${var.name}-eip"
+  }
 }
 
 resource "aws_nat_gateway" "nat_gw" {
