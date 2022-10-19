@@ -3,6 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: ebs-claim
 spec:
+  #serviceAccountName: ebs-csi-controller-sa
   accessModes:
     - ReadWriteOnce
   storageClassName: ebs-sc

@@ -12,6 +12,7 @@ spec:
       labels:
         app: jenkins
    spec:
+    #serviceAccountName: ebs-csi-controller-sa
     containers:
       - name: jenkins
         image: jenkins/jenkins:latest
@@ -19,12 +20,13 @@ spec:
         ports:
          - containerPort: 8080
     #     volumeMounts:
-    #       - name: persistent-storage
-    #         mountPath: /var/jenkins_home
+    #     - name: persistent-storage
+    #       mountPath: /var/jenkins_home
     # volumes:
-    #   - name: persistent-storage
-    #     persistentVolumeClaim:
-    #       claimName: ebs-claim
+    # - name: persistent-storage
+    #   persistentVolumeClaim:
+    #     claimName: ebs-claim
+    #     #claimName: jenkins-pvc
 ---
 apiVersion: v1
 kind: Service
