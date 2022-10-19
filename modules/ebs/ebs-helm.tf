@@ -1,8 +1,8 @@
 resource "helm_release" "ebs_csi_driver" {
   depends_on = [var.node_iam_role_arn]
   name       = "${var.name}-aws-ebs-csi-driver"
-  repository = "https://kubernetes-sigs.github.io/aws-ebs-csi-driver"
-  chart      = "aws-ebs-csi-driver"
+  #repository = "https://kubernetes-sigs.github.io/aws-ebs-csi-driver"
+  chart      = "${path.module}/chart_ebs_csi_driver"
   namespace = "kube-system"     
 
   set {
@@ -22,7 +22,7 @@ resource "helm_release" "ebs_csi_driver" {
 
   set {
     name  = "controller.serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-    value = "${var.node_iam_role_arn}"
+    value = "${aws_iam_role.ebs_csi_iam_role.arn}"
+    #value = "${var.node_iam_role_arn}"
   }
-    
 }

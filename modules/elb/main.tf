@@ -35,7 +35,7 @@ resource "aws_lb_target_group" "target_gr" {
 }
 
 resource "aws_autoscaling_group" "asg" {
-  depends_on = [var.efs_mount_target]
+  #depends_on = [var.efs_mount_target]
   name                = "${var.name}-asg"
   min_size            = 1
   max_size            = 3

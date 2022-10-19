@@ -22,10 +22,10 @@ variable "image_id" {
   type = string
 }
 
-variable "efs_dns_name" {
-  type = any
-}
+# variable "efs_dns_name" {
+#   type = any
+# }
 
-variable "efs_mount_target" {
-  type = any
-}
+# variable "efs_mount_target" {
+#   type = any
+# }

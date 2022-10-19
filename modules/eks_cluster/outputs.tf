@@ -5,5 +5,6 @@ output "eks" {
     endpoint = aws_eks_cluster.eks_cluster.endpoint
     worker_node_iam_role = aws_iam_role.node.name
     node_iam_role_arn = aws_iam_role.node.arn
+    cluster = aws_eks_cluster.eks_cluster
   }
 }
