@@ -1,17 +1,9 @@
-# data "template_file" "jenkins_template" {
-#   template = "${file("${path.module}/jenkins-setup.sh")}"
-#   vars = {
-#     efs_dns_name = "${var.efs_dns_name.dns_name}"
-#   }
-# }
-
 resource "aws_launch_template" "bastian_launch_template" {
   name_prefix = "${var.name}"
   image_id = var.image_id
   instance_type = "${var.instance_type}"
   vpc_security_group_ids = [var.sg.bastian_sg]
   key_name = var.key_pair
-  #user_data = "${base64encode(data.template_file.jenkins_template.rendered)}"
 }
 
 resource "aws_lb_target_group" "target_gr" {
@@ -20,9 +12,6 @@ resource "aws_lb_target_group" "target_gr" {
   protocol = "HTTP"
   vpc_id   = var.vpc.vpc_id
   target_type = "instance"
-  # stickiness {
-  #   type = "lb_cookie"
-  # }
   health_check {
     path                = "/"
     protocol            = "HTTP"
@@ -35,7 +24,6 @@ resource "aws_lb_target_group" "target_gr" {
 }
 
 resource "aws_autoscaling_group" "asg" {
-  #depends_on = [var.efs_mount_target]
   name                = "${var.name}-asg"
   min_size            = 1
   max_size            = 3
@@ -60,13 +48,3 @@ resource "aws_lb" "alb" {
   subnets            = var.vpc.public_subnet
   enable_deletion_protection = false
 }
-
-# resource "aws_lb_listener" "alb_listener" {
-#   load_balancer_arn = aws_lb.alb.arn
-#   port = "80"
-#   protocol = "HTTP"
-#   default_action {
-#     type             = "forward"
-#     target_group_arn = aws_lb_target_group.target_gr.id
-#   }
-# }
